@@ -24,7 +24,7 @@ class LinkedList {
     }
 
     head() {
-        return this._head ? this._head.data : this._tail;
+        return this._head ? this._head.data : this._head;
     }
 
     tail() {
@@ -32,7 +32,9 @@ class LinkedList {
     }
 
     at(index) {
-        var currentNode = this._head;
+        return this.findByIndex(this._head, index).data;
+
+        /*var currentNode = this._head;
         var currentNodeIndex = 0;
 
         while(currentNode){
@@ -42,11 +44,25 @@ class LinkedList {
             } else {
                 return currentNode.data;
             }
-        }
+        }*/
     }
 
     insertAt(index, data) {
-        var currentNode = this._head;
+
+        var currentNode = this.findByIndex(this._head, index);
+        var newNode = new Node(data);
+
+
+        newNode.next = currentNode;
+        newNode.prev = currentNode.prev;
+
+        currentNode.prev.next = newNode;
+        currentNode.prev = newNode;
+
+        this.length++;
+
+
+        /*var currentNode = this._head;
         var currentNodeIndex = 0
 
         while(currentNode){
@@ -62,9 +78,11 @@ class LinkedList {
                 currentNode.prev.next = newNode;
                 currentNode.prev = newNode;
 
+                this.length++;
+
                 break;
             }
-        }
+        }*/
 
         return this;
     }
@@ -80,7 +98,15 @@ class LinkedList {
     }
 
     deleteAt(index) {
-        var currentNode = this._head;
+
+        var currentNode = this.findByIndex(this._head, index);
+        currentNode.prev.next = currentNode.next;
+        currentNode.next.prev = currentNode.prev;
+
+        this.length--;
+
+
+        /*var currentNode = this._head;
         var currentNodeIndex = 0
 
         while(currentNode){
@@ -91,20 +117,18 @@ class LinkedList {
                 currentNode.prev.next = currentNode.next;
                 currentNode.next.prev = currentNode.prev;
 
+                this.length--;
+
                 break;
             }
-        }
+        }*/
 
         return this;
     }
 
     reverse() {
         var currentNode = this._head;
-        var tmp;
 
-        while(currentNode){
-            break;
-        }
 
         return this;
     }
@@ -125,9 +149,21 @@ class LinkedList {
         return -1;
     }
 
-    find(data, index){
-        
+    findByIndex(head, index){
+        var currentNode = head;
+        var currentNodeIndex = 0;
+
+        while(currentNode){
+            if(currentNodeIndex != index){
+                currentNode = currentNode.next;
+                currentNodeIndex++;
+            } else {
+                return currentNode
+            }
+        }
+
     }
+
 }
 
 module.exports = LinkedList;
